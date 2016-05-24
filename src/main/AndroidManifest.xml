@@ -20,6 +20,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />w``
             </intent-filter>
         </activity>
+
         <activity
             android:name=".DetailActivity"
             android:label="@string/title_activity_detail"
@@ -29,6 +30,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mohit.sunshine.app.MainActivity" />
         </activity>
+
         <activity
             android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"

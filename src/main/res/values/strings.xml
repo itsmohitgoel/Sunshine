@@ -10,7 +10,7 @@
     <string name="pref_location_label">Location</string>
 
     <string name="pref_temperature_default">metric</string>
-    <string name="pref_temperature_key">unit</string>
+    <string name="pref_temperature_key">sort_by</string>
     <string name="pref_temperature_label">Temperature</string>
     <string name="action_map">Map Location</string>
 
