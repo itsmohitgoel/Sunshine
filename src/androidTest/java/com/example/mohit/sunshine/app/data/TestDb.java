@@ -15,9 +15,12 @@
  */
 package com.example.mohit.sunshine.app.data;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.test.AndroidTestCase;
+
+import com.example.mohit.sunshine.app.data.WeatherContract.LocationEntry;
 
 import java.util.HashSet;
 
@@ -112,21 +115,56 @@ public class TestDb extends AndroidTestCase {
     */
     public void testLocationTable() {
         // First step: Get reference to writable database
+        SQLiteDatabase weatherDB = new WeatherDbHelper(mContext).getWritableDatabase();
 
         // Create ContentValues of what you want to insert
         // (you can use the createNorthPoleLocationValues if you wish)
+        ContentValues testValues = new ContentValues();
+        testValues.put(LocationEntry.COLUMN_LOCATION_SETTING, "99705");
+        testValues.put(LocationEntry.COLUMN_CITY_NAME, "North Pole");
+        testValues.put(LocationEntry.COLUMN_COORD_LAT, "64.7488");
+        testValues.put(LocationEntry.COLUMN_COORD_LONG, "-147.353");
 
         // Insert ContentValues into database and get a row ID back
+        long locationRowId;
+        locationRowId = weatherDB.insert(WeatherContract.LocationEntry.TABLE_NAME,
+                null,
+                testValues);
+
+        //verify we got a row back
+        assertTrue("There is no record in location table",locationRowId != -1);
 
         // Query the database and receive a Cursor back
+        String[] projection = {
+                LocationEntry.COLUMN_LOCATION_SETTING,
+                LocationEntry.COLUMN_CITY_NAME,
+                LocationEntry.COLUMN_COORD_LAT,
+                LocationEntry.COLUMN_COORD_LONG
+        };
 
-        // Move the cursor to a valid database row
+        Cursor cursor = weatherDB.query(LocationEntry.TABLE_NAME,
+                null,
+                null,
+                null,
+                null, null,
+                null);
+
+        // Move the cursor to a valid database row and check to see if we got any records
+        // back from the query
+        assertTrue("Error: No Records returned from the location query", cursor.moveToFirst());
 
         // Validate data in resulting Cursor with the original ContentValues
         // (you can use the validateCurrentRecord function in TestUtilities to validate the
         // query if you like)
+        TestUtilities.validateCurrentRecord("Error: Location Query validation Failed",
+                cursor, testValues);
+
+        // Move the cursor to demonstrate that there is only one record in the database
+        assertFalse("Error: More than one record returned from the location query", cursor.moveToNext());
 
         // Finally, close the cursor and database
+        cursor.close();
+        weatherDB.close();
 
     }
 
