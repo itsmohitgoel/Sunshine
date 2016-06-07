@@ -7,6 +7,6 @@
 
     <string-array name="pref_unit_entry_values">
         <item>@string/pref_temperature_default</item>
-        <item>imperial</item>
+        <item>@string/pref_temperature_unit_imperial</item>
     </string-array>
 </resources>
