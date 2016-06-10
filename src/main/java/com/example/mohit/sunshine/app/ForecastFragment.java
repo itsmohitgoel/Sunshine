@@ -1,9 +1,8 @@
 package com.example.mohit.sunshine.app;
 
-import android.content.Intent;
-import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -11,10 +10,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
+import com.example.mohit.sunshine.app.Utilities.Utility;
+import com.example.mohit.sunshine.app.adapters.ForecastAdapter;
+import com.example.mohit.sunshine.app.data.WeatherContract;
 import com.example.mohit.sunshine.app.listeners.Updatable;
 import com.example.mohit.sunshine.app.webservices.FetchWeatherAsyncTask;
 
@@ -27,7 +27,7 @@ import java.util.List;
  */
 public class ForecastFragment extends Fragment implements Updatable {
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
-    ArrayAdapter<String> mForecastAdapter;
+    private ForecastAdapter mForecastAdapter;
 
     public ForecastFragment() {
     }
@@ -59,6 +59,7 @@ public class ForecastFragment extends Fragment implements Updatable {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+        String locationSetting = Utility.getPreferredLocation(getActivity());
 
         // Create some dummy data for the ListView.
         String[] data = {"Mon 6/23 - Sunny - 31/17",
@@ -71,24 +72,25 @@ public class ForecastFragment extends Fragment implements Updatable {
         List<String> weekForecast = new ArrayList<>(Arrays.asList(data));
 
         //Initialize adapter
-        mForecastAdapter = new ArrayAdapter<String>(
-                getActivity(),
-                R.layout.list_item_forecast,
-                R.id.list_item_forecast_textview,
-                weekForecast
+        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
+                locationSetting, System.currentTimeMillis()
         );
+        // Sort order: Ascending by date.
+        String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
+
+        Cursor cursor = getActivity().getContentResolver().query(
+                weatherForLocationUri,
+                null,null,null,
+                sortOrder
+        );
+
+        // The CursorAdapter will take data from cursor and populate the ListView
+        // However, we can't use FLAG_AUTO_QUERY since its deprecated, so we will
+        // end up with empty list the first time we run.
+        mForecastAdapter = new ForecastAdapter(getActivity(), cursor, 0);
+
         ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
         listView.setAdapter(mForecastAdapter);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String s = mForecastAdapter.getItem(position);
-                Intent targetIntent = new Intent(getActivity(), DetailActivity.class);
-                targetIntent.putExtra(Intent.EXTRA_TEXT, s);
-                startActivity(targetIntent);
-            }
-        });
-
 
         return rootView;
     }
@@ -101,10 +103,10 @@ public class ForecastFragment extends Fragment implements Updatable {
 
     @Override
     public void onWeatherUpdate(List<String> weatherData) {
-        mForecastAdapter.clear();
-        for (String s : weatherData) {
-            mForecastAdapter.add(s);
-        }
+//        mForecastAdapter.clear();
+//        for (String s : weatherData) {
+//            mForecastAdapter.add(s);
+//        }
     }
 
     /**
@@ -114,9 +116,7 @@ public class ForecastFragment extends Fragment implements Updatable {
     private void updateWeather() {
         FetchWeatherAsyncTask weatherTask = new FetchWeatherAsyncTask(getActivity());
         weatherTask.updatableObject = this;
-        SharedPreferences mPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        String locationValue = mPreferences.getString(getString(R.string.pref_location_key), getString(R.string
-                .pref_location_default));
+        String locationValue = Utility.getPreferredLocation(getActivity());
         weatherTask.execute(locationValue);
     }
 }
