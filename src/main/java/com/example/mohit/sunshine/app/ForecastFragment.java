@@ -32,6 +32,32 @@ import java.util.List;
 public class ForecastFragment extends Fragment implements Updatable , LoaderManager.LoaderCallbacks<Cursor>{
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
     private static final int FORECAST_LOADER  = 0;
+    // For the forecast view we're showing only a small subset of the stored data.
+    // Specify the columns we need.
+    private static final String[] FORECAST_COLUMNS = {
+            WeatherContract.WeatherEntry.TABLE_NAME + "." + WeatherContract.WeatherEntry._ID,
+            WeatherContract.WeatherEntry.COLUMN_DATE,
+            WeatherContract.WeatherEntry.COLUMN_SHORT_DESC,
+            WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
+            WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
+            WeatherContract.LocationEntry.COLUMN_LOCATION_SETTING,
+            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
+            WeatherContract.LocationEntry.COLUMN_COORD_LAT,
+            WeatherContract.LocationEntry.COLUMN_COORD_LONG
+    };
+
+    //These indices are tied to FORECAST_COLUMNS. If FORECAST_COLUMNS changes, these
+    // must change.
+    public static final int COL_WEATHER_ID = 0;
+    public static final int COL_WEATHER_DATE = 1;
+    public static final int COL_WEATHER_DESC = 2;
+    public static final int COL_WEATHER_MAX_TEMP = 3;
+    public static final int COL_WEATHER_MIN_TEMP = 4;
+    public static final int COL_LOCATION_SETTING = 5;
+    public static final int COL_WEATHER_CONDITION_ID = 6;
+    public static final int COL_COORD_LAT = 7;
+    public static final int COL_COORD_LONG = 8;
+
     private ForecastAdapter mForecastAdapter;
 
     public ForecastFragment() {
@@ -134,12 +160,13 @@ public class ForecastFragment extends Fragment implements Updatable , LoaderMana
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
         String locationSetting = Utility.getPreferredLocation(getActivity());
-        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(locationSetting, System.currentTimeMillis());
+        Uri weatherForLocationUri = WeatherContract.WeatherEntry.
+                buildWeatherLocationWithStartDate(locationSetting, System.currentTimeMillis());
         String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
 
         CursorLoader cLoader = new CursorLoader(getActivity(),
                 weatherForLocationUri,
-                null, null, null,
+                FORECAST_COLUMNS, null, null,
                 sortOrder);
         return cLoader;
     }

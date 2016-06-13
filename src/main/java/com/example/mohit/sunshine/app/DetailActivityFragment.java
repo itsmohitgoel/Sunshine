@@ -36,7 +36,9 @@ public class DetailActivityFragment extends Fragment {
         }
 
         TextView tv = (TextView) rootView.findViewById(R.id.textView_detail_text);
-        tv.setText(forecastString);
+        if(forecastString != null){
+            tv.setText(forecastString);
+        }
         return rootView;
     }
 
