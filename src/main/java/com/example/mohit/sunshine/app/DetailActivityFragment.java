@@ -20,7 +20,7 @@ import android.widget.TextView;
 public class DetailActivityFragment extends Fragment {
     private final String LOG_TAG = DetailActivityFragment.class.getSimpleName();
     private final String FORECAST_SHARE_HASHTAG = "#SunshineApp";
-    private String forecastString;
+    private String mforecastString;
 
     public DetailActivityFragment() {
         setHasOptionsMenu(true);
@@ -31,13 +31,13 @@ public class DetailActivityFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
         Intent incomingIntent = getActivity().getIntent();
-        if (incomingIntent != null && incomingIntent.hasExtra(Intent.EXTRA_TEXT)) {
-            forecastString = incomingIntent.getExtras().getString(Intent.EXTRA_TEXT);
+        if (incomingIntent != null ) {
+            mforecastString = incomingIntent.getDataString();
         }
 
         TextView tv = (TextView) rootView.findViewById(R.id.textView_detail_text);
-        if(forecastString != null){
-            tv.setText(forecastString);
+        if(mforecastString != null){
+            tv.setText(mforecastString);
         }
         return rootView;
     }
@@ -54,7 +54,7 @@ public class DetailActivityFragment extends Fragment {
     public void createForecastShareIntent(ShareActionProvider actionProvider) {
         Intent intentShare = new Intent(Intent.ACTION_SEND);
         intentShare.setType("text/plain");
-        intentShare.putExtra(Intent.EXTRA_TEXT, forecastString + FORECAST_SHARE_HASHTAG);
+        intentShare.putExtra(Intent.EXTRA_TEXT, mforecastString + FORECAST_SHARE_HASHTAG);
         intentShare.setFlags(Intent.FLAG_ACTIVITY_CLEAR_WHEN_TASK_RESET);
 
         if (actionProvider != null) {
