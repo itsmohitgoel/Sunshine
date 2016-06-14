@@ -151,10 +151,10 @@ public class ForecastFragment extends Fragment implements Updatable , LoaderMana
         return rootView;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
+    // Since we read the location when we create the loader, all we need to do is restart things
+    void onLocationChanged(){
         updateWeather();
+        getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
     }
 
     @Override

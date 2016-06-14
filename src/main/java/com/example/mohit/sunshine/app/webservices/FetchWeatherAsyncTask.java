@@ -4,16 +4,12 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.database.DatabaseUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.preference.PreferenceManager;
 import android.text.format.Time;
 import android.util.Log;
 
-import com.example.mohit.sunshine.app.R;
 import com.example.mohit.sunshine.app.data.WeatherContract;
 import com.example.mohit.sunshine.app.listeners.Updatable;
 
@@ -28,9 +24,6 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.text.SimpleDateFormat;
-import java.util.Arrays;
-import java.util.Date;
 import java.util.Vector;
 
 /**
@@ -60,7 +53,7 @@ public class FetchWeatherAsyncTask extends AsyncTask<String, Void, Void> {
         String format = "json";
         String unit = "metric";
         String numDays = "14";
-        String apiKey = "1d8608cb722da1f8f1f18011bd298fe0";
+        String apiKey = "273d09eec63fef96db00f20143533b4d";
         String forecastJsonString = null;
 
         final String FORECAST_BASE_URL = "http://api.openweathermap.org/data/2.5/forecast/daily?";

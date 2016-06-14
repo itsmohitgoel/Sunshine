@@ -11,8 +11,12 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.mohit.sunshine.app.Utilities.Utility;
+
 public class MainActivity extends AppCompatActivity {
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private String mLocation ;
+//    private final String FORECASTFRAGMENT_TAG = "FFTAG";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,9 +24,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-//        Log.d(LOG_TAG, " onCreate");
-
-
+        mLocation = Utility.getPreferredLocation(this);
     }
 
     @Override
@@ -74,46 +76,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-//        Log.d(LOG_TAG, "onStart");
-
-    }
-
-    @Override
-    protected void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-//        Log.d(LOG_TAG, "onSaveInstanceState");
-    }
-
-    @Override
-    protected void onRestoreInstanceState(Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-//        Log.d(LOG_TAG, "onRestoreInstanceState");
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
-//        Log.d(LOG_TAG, "onResume");
+        String location = Utility.getPreferredLocation(this);
+        //update the location in our second pane using the Fragment Manager
+        if (location != null && !location.equals(mLocation)) {
+            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+            if (ff != null) {
+                ff.onLocationChanged();
+            }
+            mLocation = location;
+        }
     }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-//        Log.d(LOG_TAG, "onPause");
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-//        Log.d(LOG_TAG, "onStop");
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-//        Log.d(LOG_TAG, "onDestroy");
-    }
-
 }
