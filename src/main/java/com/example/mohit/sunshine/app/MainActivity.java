@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        Log.d(LOG_TAG, " onCreate");
+//        Log.d(LOG_TAG, " onCreate");
 
 
     }
@@ -76,44 +76,44 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        Log.d(LOG_TAG, "onStart");
+//        Log.d(LOG_TAG, "onStart");
 
     }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        Log.d(LOG_TAG, "onSaveInstanceState");
+//        Log.d(LOG_TAG, "onSaveInstanceState");
     }
 
     @Override
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        Log.d(LOG_TAG, "onRestoreInstanceState");
+//        Log.d(LOG_TAG, "onRestoreInstanceState");
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        Log.d(LOG_TAG, "onResume");
+//        Log.d(LOG_TAG, "onResume");
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(LOG_TAG, "onPause");
+//        Log.d(LOG_TAG, "onPause");
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        Log.d(LOG_TAG, "onStop");
+//        Log.d(LOG_TAG, "onStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.d(LOG_TAG, "onDestroy");
+//        Log.d(LOG_TAG, "onDestroy");
     }
 
 }
