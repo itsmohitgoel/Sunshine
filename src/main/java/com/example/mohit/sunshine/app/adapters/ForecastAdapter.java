@@ -19,7 +19,11 @@ import com.example.mohit.sunshine.app.Utilities.Utility;
  * Created by Mohit on 10-06-2016.
  */
 public class ForecastAdapter extends CursorAdapter {
+    public static final int VIEW_TYPE_COUNT = 2;
+    private static final int VIEW_TYPE_TODAY = 0;
+    private static final int VIEW_TYPE_FUTURE_DAY = 1;
     public static final String LOG_TAG = ForecastAdapter.class.getSimpleName();
+
     public ForecastAdapter(Context context, Cursor c, int flags) {
         super(context, c, flags);
     }
@@ -48,12 +52,17 @@ public class ForecastAdapter extends CursorAdapter {
     }
 
     /*
-        Remember that these views are reused as needed.
+        Cache of the children views for a forecast list item.
      */
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
-        View view = LayoutInflater.from(context).inflate(R.layout.list_item_forecast, parent, false);
+        // choose the layout type
+        int viewType = getItemViewType(cursor.getPosition());
+        int layoutId = -1;
 
+        layoutId = (viewType == VIEW_TYPE_TODAY)? R.layout.list_item_forecast_today:
+                R.layout.list_item_forecast;
+        View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
         return view;
     }
 
@@ -91,5 +100,15 @@ public class ForecastAdapter extends CursorAdapter {
         double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
         TextView lowView = (TextView) view.findViewById(R.id.list_item_low_textview);
         lowView.setText(Utility.formatTemperature(low, isMetric));
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return (position == 0) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
+    }
+
+    @Override
+    public int getViewTypeCount() {
+        return VIEW_TYPE_COUNT;
     }
 }
