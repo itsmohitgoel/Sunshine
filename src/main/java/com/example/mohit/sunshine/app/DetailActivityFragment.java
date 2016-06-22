@@ -156,12 +156,8 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         String high = Utility.formatTemperature(getActivity(), data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
         String low = Utility.formatTemperature(getActivity(), data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
 
-
-        mforecastString = String.format("%s - %s -%s/%s", dateString, weatherDescription, high, low);
-
         long date = data.getLong(COL_WEATHER_DATE);
-//        TextView detailTextView = (TextView) getView().findViewById(R.id.textView_detail_text);
-//        detailTextView.setText(mforecastString);
+        mIconView.setImageResource(R.mipmap.ic_launcher);
         mFriendlyDateView.setText(Utility.getDayName(getActivity(), date));
 
         mDateView.setText(Utility.getFormattedMonthDay(getActivity(), date));
@@ -184,6 +180,14 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         // Read pressure from cursor and update view
         float pressure = data.getFloat(COL_WEATHER_PRESSURE);
         mPressureView.setText(getActivity().getString(R.string.format_pressure, pressure));
+
+        // we still need this for the share intent
+        mforecastString = String.format("%s - %s -%s/%s", dateString, weatherDescription, high, low);
+
+        //If onCreateOptionsMenu already happend we need to update the share intent now.
+        if (mShareActionProvider != null) {
+            createForecastShareIntent(mShareActionProvider);
+        }
     }
 
     @Override
