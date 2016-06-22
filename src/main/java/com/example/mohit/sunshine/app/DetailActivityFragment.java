@@ -155,17 +155,14 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         boolean isMetric = Utility.isMetric(getActivity());
         String high = Utility.formatTemperature(getActivity(), data.getDouble(COL_WEATHER_MAX_TEMP), isMetric);
         String low = Utility.formatTemperature(getActivity(), data.getDouble(COL_WEATHER_MIN_TEMP), isMetric);
+        int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
 
         long date = data.getLong(COL_WEATHER_DATE);
-        mIconView.setImageResource(R.mipmap.ic_launcher);
+        mIconView.setImageResource(Utility.getArtResourceForWeather(weatherId));
         mFriendlyDateView.setText(Utility.getDayName(getActivity(), date));
-
         mDateView.setText(Utility.getFormattedMonthDay(getActivity(), date));
-
         mHighTempView.setText(high);
-
         mLowTempView.setText(low);
-
         mDescriptionView.setText(weatherDescription);
 
         // Read humidity from cursor and update view

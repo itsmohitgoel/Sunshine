@@ -80,12 +80,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         String location = Utility.getPreferredLocation(this);
         //update the location in our second pane using the Fragment Manager
-        if (location != null && !location.equals(mLocation)) {
+//        if (location != null && !location.equals(mLocation)) {
             ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
             if (ff != null) {
                 ff.onLocationChanged();
             }
             mLocation = location;
-        }
+//        }
     }
 }
