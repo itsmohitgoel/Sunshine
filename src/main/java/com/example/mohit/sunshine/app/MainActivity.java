@@ -5,6 +5,8 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -15,8 +17,9 @@ import com.example.mohit.sunshine.app.Utilities.Utility;
 
 public class MainActivity extends AppCompatActivity {
     private final String LOG_TAG = MainActivity.class.getSimpleName();
+    private static final String DETAILFRAGMENT_TAG = "DFTAG";
     private String mLocation ;
-//    private final String FORECASTFRAGMENT_TAG = "FFTAG";
+    private boolean mTwoPane;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +28,24 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         mLocation = Utility.getPreferredLocation(this);
+
+        if (findViewById(R.id.weather_detail_container) != null) {
+            // The detail container view will be present only in the large-screen layouts
+            // (res/layout-sw600dp). If this view is present , then the activity should be
+            // in two-pane mode.
+            mTwoPane = true;
+            // In two-pane mode, show the detail view in this activity by
+            // adding or replacing the detail fragment using a fragment
+            // transaction.
+            if (savedInstanceState == null) {
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction transaction = fm.beginTransaction();
+                transaction.add(R.id.weather_detail_container, new DetailActivityFragment());
+                transaction.commit();
+            }
+        }else {
+            mTwoPane = false;
+        }
     }
 
     @Override
@@ -80,12 +101,12 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         String location = Utility.getPreferredLocation(this);
         //update the location in our second pane using the Fragment Manager
-//        if (location != null && !location.equals(mLocation)) {
-            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment);
+        if (location != null && (!location.equals(mLocation))) {
+            ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
             if (ff != null) {
                 ff.onLocationChanged();
             }
             mLocation = location;
-//        }
+        }
     }
 }

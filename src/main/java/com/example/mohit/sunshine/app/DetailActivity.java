@@ -2,6 +2,8 @@ package com.example.mohit.sunshine.app;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,6 +19,12 @@ public class DetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (savedInstanceState == null) {
+            FragmentManager fm = getSupportFragmentManager();
+            FragmentTransaction transaction = fm.beginTransaction();
+            transaction.add(R.id.weather_detail_container, new DetailActivityFragment());
+            transaction.commit();
+        }
     }
 
     @Override
