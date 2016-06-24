@@ -1,6 +1,5 @@
 package com.example.mohit.sunshine.app;
 
-import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -62,6 +61,17 @@ public class ForecastFragment extends Fragment implements Updatable , LoaderMana
 
     private ForecastAdapter mForecastAdapter;
 
+    /**
+     * A callback interface that all activities containing this fragment must
+     * implement. This mechanism allows activities to be notified of item
+     * selections
+     */
+    public interface ICallback{
+        /**
+         * DetailFragmentCallback for when an item has been selected.
+         */
+        public void onItemSelected(Uri dateUri);
+    }
     public ForecastFragment() {
     }
 
@@ -110,19 +120,6 @@ public class ForecastFragment extends Fragment implements Updatable , LoaderMana
                 "Sun 6/29 - Sunny - 20/7"};
         List<String> weekForecast = new ArrayList<>(Arrays.asList(data));
 
-        //Initialize adapter
-//        Uri weatherForLocationUri = WeatherContract.WeatherEntry.buildWeatherLocationWithStartDate(
-//                locationSetting, System.currentTimeMillis()
-//        );
-        // Sort order: Ascending by date.
-//        String sortOrder = WeatherContract.WeatherEntry.COLUMN_DATE + " ASC";
-
-//        Cursor cursor = getActivity().getContentResolver().query(
-//                weatherForLocationUri,
-//                null,null,null,
-//                sortOrder
-//        );
-
         // The CursorAdapter will take data from cursor and populate the ListView
         // However, we can't use FLAG_AUTO_QUERY since its deprecated, so we will
         // end up with empty list the first time we run.
@@ -141,9 +138,8 @@ public class ForecastFragment extends Fragment implements Updatable , LoaderMana
                             locationSetting,
                             cursor.getLong(COL_WEATHER_DATE)
                     );
-                    Intent detailIntent = new Intent(getActivity(), DetailActivity.class);
-                    detailIntent.setData(weatherUri);
-                    startActivity(detailIntent);
+                    ICallback listener = (ICallback) getActivity();
+                    listener.onItemSelected(weatherUri);
                 }
             }
         });

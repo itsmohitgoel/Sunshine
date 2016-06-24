@@ -20,9 +20,18 @@ public class DetailActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         if (savedInstanceState == null) {
+            // Create the detail fragment and add it to the activity
+            // using a fragment transaction.
+
+            Bundle arguments = new Bundle();
+            arguments.putParcelable(DetailActivityFragment.DETAIL_URI, getIntent().getData());
+
+            DetailActivityFragment detailFragment = new DetailActivityFragment();
+            detailFragment.setArguments(arguments);
+
             FragmentManager fm = getSupportFragmentManager();
             FragmentTransaction transaction = fm.beginTransaction();
-            transaction.add(R.id.weather_detail_container, new DetailActivityFragment());
+            transaction.add(R.id.weather_detail_container, detailFragment);
             transaction.commit();
         }
     }
