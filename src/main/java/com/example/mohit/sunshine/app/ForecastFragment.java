@@ -34,6 +34,7 @@ public class ForecastFragment extends Fragment implements Updatable , LoaderMana
     private ForecastAdapter mForecastAdapter;
     private ListView mListView;
     private static final String SELECTED_KEY = "selected_position";
+    private boolean mUseTodayLayout;
 
     // For the forecast view we're showing only a small subset of the stored data.
     // Specify the columns we need.
@@ -140,6 +141,7 @@ public class ForecastFragment extends Fragment implements Updatable , LoaderMana
             mPosition = savedInstanceState.getInt(SELECTED_KEY);
         }
 
+        mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
         return rootView;
     }
 
@@ -204,5 +206,12 @@ public class ForecastFragment extends Fragment implements Updatable , LoaderMana
     @Override
     public void onLoaderReset(Loader loader) {
         mForecastAdapter.swapCursor(null);
+    }
+
+    public void setUseTodayLayout(boolean useTodayLayout) {
+        mUseTodayLayout = useTodayLayout;
+        if (mForecastAdapter != null) {
+            mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
     }
 }
