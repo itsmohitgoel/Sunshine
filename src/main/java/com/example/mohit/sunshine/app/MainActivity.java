@@ -5,8 +5,10 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -27,6 +29,10 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setLogo(R.drawable.ic_logo);
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        AppBarLayout mAppBarLayout = (AppBarLayout) findViewById(R.id.appbar_main);
         mLocation = Utility.getPreferredLocation(this);
 
         if (findViewById(R.id.weather_detail_container) != null) {
@@ -45,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
             }
         }else {
             mTwoPane = false;
+            ViewCompat.setElevation(mAppBarLayout, 0f);
         }
 
         ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
