@@ -24,6 +24,9 @@
         <item name="logo">@drawable/ic_logo</item>
     </style>
 
+    <!-- Settings Activity theme-->
+    <style name="SettingsTheme" parent="AppTheme" />
+
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
