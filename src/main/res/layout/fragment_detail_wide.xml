@@ -16,17 +16,27 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:minWidth="56dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/detail_day_textview"
+                android:minWidth="120dp"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:text="Today, June 16"
+                android:textColor="@color/black"
+                android:textSize="24sp" />
 
             <TextView
                 android:id="@+id/detail_date_textview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:text="June 16"
+                android:textColor="@color/grey_700"
+                android:textSize="20sp" />
         </LinearLayout>
 
 
@@ -39,27 +49,51 @@
             <TextView
                 android:id="@+id/detail_high_textview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="29'"
+                android:textColor="@color/black"
+                android:textSize="96sp" />
 
             <TextView
                 android:id="@+id/detail_low_textview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="8dp"
+                android:fontFamily="sans-serif"
+                android:text="14'"
+                android:textColor="@color/grey_700"
+                android:textSize="48sp" />
 
             <TextView
                 android:id="@+id/detail_humidity_textview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_marginTop="4dp"
+                android:text="Humidity: 71 %"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/detail_wind_textview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_marginTop="4dp"
+                android:text="Wind: 2 km/h NW"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
 
             <TextView
                 android:id="@+id/detail_pressure_textview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:layout_marginTop="4dp"
+                android:text="Pressure: 1016 hPa"
+                android:textColor="@color/black"
+                android:textSize="22sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -72,12 +106,17 @@
             <ImageView
                 android:id="@+id/detail_icon"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:src="@drawable/art_clear" />
 
             <TextView
                 android:id="@+id/detail_forecast_textview"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-condensed"
+                android:textSize="22sp"
+                android:textColor="@color/grey_700"
+                android:text="DDClear" />
         </LinearLayout>
 
 

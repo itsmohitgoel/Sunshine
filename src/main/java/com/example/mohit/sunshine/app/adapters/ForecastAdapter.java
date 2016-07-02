@@ -34,8 +34,8 @@ public class ForecastAdapter extends CursorAdapter {
      */
     private String formatHighLows(double high, double low) {
         boolean isMetric = Utility.isMetric(mContext);
-        String highLowStr = Utility.formatTemperature(mContext,high, isMetric) + "/" +
-                Utility.formatTemperature(mContext,low, isMetric);
+        String highLowStr = Utility.formatTemperature(mContext, high, isMetric) + "/" +
+                Utility.formatTemperature(mContext, low, isMetric);
         return highLowStr;
     }
 
@@ -56,10 +56,11 @@ public class ForecastAdapter extends CursorAdapter {
     /*
         Cache of the children views for a forecast list item.
      */
-    public static class ViewHolder{
+    public static class ViewHolder {
         public final ImageView iconView;
         public final TextView dateView;
-        public final TextView descriptionView;;
+        public final TextView descriptionView;
+        ;
         public final TextView highTempView;
         public final TextView lowTempView;
 
@@ -78,7 +79,7 @@ public class ForecastAdapter extends CursorAdapter {
         int viewType = getItemViewType(cursor.getPosition());
         int layoutId = -1;
 
-        layoutId = (viewType == VIEW_TYPE_TODAY)? R.layout.list_item_forecast_today:
+        layoutId = (viewType == VIEW_TYPE_TODAY) ? R.layout.list_item_forecast_today :
                 R.layout.list_item_forecast;
         View view = LayoutInflater.from(context).inflate(layoutId, parent, false);
         ViewHolder viewHolder = new ViewHolder(view);
@@ -106,7 +107,9 @@ public class ForecastAdapter extends CursorAdapter {
                 break;
         }
         long date = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
-        viewHolder.dateView.setText(Utility.getDayName(mContext,date));
+//        viewHolder.dateView.setText(Utility.getDayName(mContext, date) +
+//                ",,, " + Utility.getFormattedMonthDay(mContext, date));
+        viewHolder.dateView.setText(Utility.getFriendlyDayString(mContext, date));
 
         String weather = cursor.getString(ForecastFragment.COL_WEATHER_DESC);
         viewHolder.descriptionView.setText(weather);
@@ -116,7 +119,7 @@ public class ForecastAdapter extends CursorAdapter {
 
         //Read high temperature from cursor
         double high = cursor.getDouble(ForecastFragment.COL_WEATHER_MAX_TEMP);
-        viewHolder.highTempView.setText(Utility.formatTemperature(mContext,high,isMetric));
+        viewHolder.highTempView.setText(Utility.formatTemperature(mContext, high, isMetric));
 
         //Read low temperature from cursor
         double low = cursor.getDouble(ForecastFragment.COL_WEATHER_MIN_TEMP);
@@ -125,7 +128,7 @@ public class ForecastAdapter extends CursorAdapter {
 
     @Override
     public int getItemViewType(int position) {
-        return (position == 0 &&  mUseTodayLayout) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
+        return (position == 0 && mUseTodayLayout) ? VIEW_TYPE_TODAY : VIEW_TYPE_FUTURE_DAY;
     }
 
     @Override
