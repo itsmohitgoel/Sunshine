@@ -170,6 +170,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         mHighTempView.setText(high);
         mLowTempView.setText(low);
         mDescriptionView.setText(weatherDescription);
+        mIconView.setContentDescription(weatherDescription);
 
         // Read humidity from cursor and update view
         float humidity = data.getFloat(COL_WEATHER_HUMIDITY);
