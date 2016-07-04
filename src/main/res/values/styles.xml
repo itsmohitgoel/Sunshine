@@ -35,6 +35,6 @@
     <style name="ForecastListStyle">
         <!-- Here it's  a stub. In screens of sufficient width, this style include
             modifications for two pane layout -->
-        </style>
+    </style>
 
 </resources>

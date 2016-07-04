@@ -5,8 +5,8 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:gravity="left"
         android:layout_height="wrap_content"
+        android:gravity="left"
         android:orientation="vertical"
         android:padding="@dimen/activity_vertical_margin">
 
@@ -25,16 +25,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
-            android:textColor="@color/grey_700"
             android:text="June 18"
+            android:textColor="@color/grey_700"
             android:textSize="16sp" />
 
         <!-- Main content: high,low, art, weather state-->
         <LinearLayout
             android:layout_width="match_parent"
-            android:gravity="center_horizontal"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
+            android:gravity="center_horizontal"
             android:orientation="horizontal">
 
             <LinearLayout
@@ -44,22 +44,22 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:textColor="@color/black"
                     android:id="@+id/detail_high_textview"
                     android:layout_width="wrap_content"
-                    android:text="20'"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
+                    android:text="20'"
+                    android:textColor="@color/black"
                     android:textSize="96sp" />
 
                 <TextView
                     android:id="@+id/detail_low_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:textColor="@color/grey_700"
                     android:layout_gravity="center_horizontal"
+                    android:fontFamily="sans-serif"
                     android:text="12'"
+                    android:textColor="@color/grey_700"
                     android:textSize="48sp" />
             </LinearLayout>
 
@@ -73,15 +73,15 @@
                 <ImageView
                     android:id="@+id/detail_icon"
                     android:layout_width="wrap_content"
-                    android:src="@drawable/art_clear"
-                    android:layout_height="wrap_content" />
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/art_clear" />
 
                 <TextView
                     android:id="@+id/detail_forecast_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="DClear"
                     android:fontFamily="sans-serif-condensed"
+                    android:text="DClear"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@color/grey_700" />
             </LinearLayout>
@@ -89,10 +89,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:orientation="vertical"
-            android:layout_marginTop="16dp"
+            android:layout_height="match_parent"
             android:layout_marginRight="0dp"
-            android:layout_height="match_parent">
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/detail_humidity_textview"
@@ -105,10 +105,10 @@
             <TextView
                 android:id="@+id/detail_wind_textview"
                 android:layout_width="match_parent"
-                android:layout_marginTop="4dp"
                 android:layout_height="wrap_content"
-                android:text="Pressure: 1016 hPa"
+                android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif"
+                android:text="Pressure: 1016 hPa"
                 android:textAppearance="?android:textAppearanceLarge" />
 
             <TextView
@@ -116,8 +116,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
-                android:text="Wind: 2 km/h NW"
                 android:fontFamily="sans-serif"
+                android:text="Wind: 2 km/h NW"
                 android:textAppearance="?android:textAppearanceLarge" />
         </LinearLayout>
     </LinearLayout>
