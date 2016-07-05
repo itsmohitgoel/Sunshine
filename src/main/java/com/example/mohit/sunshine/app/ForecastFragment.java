@@ -28,9 +28,9 @@ import java.util.List;
 /**
  * A placeholder fragment containing a simple view.
  */
-public class ForecastFragment extends Fragment implements Updatable , LoaderManager.LoaderCallbacks<Cursor>{
+public class ForecastFragment extends Fragment implements Updatable, LoaderManager.LoaderCallbacks<Cursor> {
     private final String LOG_TAG = ForecastFragment.class.getSimpleName();
-    private static final int FORECAST_LOADER  = 0;
+    private static final int FORECAST_LOADER = 0;
     private ForecastAdapter mForecastAdapter;
     private ListView mListView;
     private static final String SELECTED_KEY = "selected_position";
@@ -69,12 +69,13 @@ public class ForecastFragment extends Fragment implements Updatable , LoaderMana
      * implement. This mechanism allows activities to be notified of item
      * selections
      */
-    public interface ICallback{
+    public interface ICallback {
         /**
          * DetailFragmentCallback for when an item has been selected.
          */
         public void onItemSelected(Uri dateUri);
     }
+
     public ForecastFragment() {
     }
 
@@ -146,7 +147,7 @@ public class ForecastFragment extends Fragment implements Updatable , LoaderMana
     }
 
     // Since we read the location when we create the loader, all we need to do is restart things
-    void onLocationChanged(){
+    void onLocationChanged() {
         updateWeather();
         getLoaderManager().restartLoader(FORECAST_LOADER, null, this);
     }

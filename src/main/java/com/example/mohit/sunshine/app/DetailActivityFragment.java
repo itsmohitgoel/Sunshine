@@ -146,7 +146,7 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
             );
             return cursorLoader;
         }
-        return  null;
+        return null;
     }
 
     @Override

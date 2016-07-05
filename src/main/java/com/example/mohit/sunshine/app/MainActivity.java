@@ -20,7 +20,7 @@ import com.example.mohit.sunshine.app.Utilities.Utility;
 public class MainActivity extends AppCompatActivity implements ForecastFragment.ICallback {
     private final String LOG_TAG = MainActivity.class.getSimpleName();
     private static final String DETAILFRAGMENT_TAG = "DFTAG";
-    private String mLocation ;
+    private String mLocation;
     private boolean mTwoPane;
 
     @Override
@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
                 transaction.replace(R.id.weather_detail_container, new DetailActivityFragment(), DETAILFRAGMENT_TAG);
                 transaction.commit();
             }
-        }else {
+        } else {
             mTwoPane = false;
             ViewCompat.setElevation(mAppBarLayout, 0f);
         }
@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         intentMap.setData(finalUri);
         if (intentMap.resolveActivity(getPackageManager()) != null) {
             startActivity(intentMap);
-        }else{
+        } else {
             Log.d(LOG_TAG, "couldn't call " + location + ", no receiving apps installed");
         }
     }
