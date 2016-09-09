@@ -1,5 +1,6 @@
 package com.example.mohit.sunshine.app;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -21,7 +22,7 @@ import com.example.mohit.sunshine.app.Utilities.Utility;
 import com.example.mohit.sunshine.app.adapters.ForecastAdapter;
 import com.example.mohit.sunshine.app.data.WeatherContract;
 import com.example.mohit.sunshine.app.listeners.Updatable;
-import com.example.mohit.sunshine.app.webservices.FetchWeatherAsyncTask;
+import com.example.mohit.sunshine.app.service.SunshineService;
 
 import java.util.List;
 
@@ -165,10 +166,10 @@ public class ForecastFragment extends Fragment implements Updatable, LoaderManag
      * as per the user defined 'location' setting
      */
     private void updateWeather() {
-        FetchWeatherAsyncTask weatherTask = new FetchWeatherAsyncTask(getActivity());
-        weatherTask.updatableObject = this;
+        Intent intent = new Intent(getActivity(), SunshineService.class);
         String locationValue = Utility.getPreferredLocation(getActivity());
-        weatherTask.execute(locationValue);
+        intent.putExtra(SunshineService.LOCATION_QUERY_EXTRA, locationValue);
+        getActivity().startService(intent);
     }
 
     @Override

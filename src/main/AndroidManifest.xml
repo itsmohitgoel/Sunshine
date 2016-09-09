@@ -6,7 +6,7 @@
 
     <application
         android:allowBackup="true"
-        android:icon= "@mipmap/ic_launcher"
+        android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -40,9 +40,13 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.example.mohit.sunshine.app.MainActivity" />
         </activity>
+
         <provider
-            android:authorities="com.example.mohit.sunshine.app"
-            android:name=".data.WeatherProvider" />
+            android:name=".data.WeatherProvider"
+            android:authorities="com.example.mohit.sunshine.app" />
+        <service
+            android:name=".service.SunshineService"
+            android:exported="false" />
     </application>
 
 </manifest>
