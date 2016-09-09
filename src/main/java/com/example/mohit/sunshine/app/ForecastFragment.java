@@ -162,7 +162,7 @@ public class ForecastFragment extends Fragment implements Updatable, LoaderManag
     }
 
     /**
-     * Execute async task to download weather data
+     * Execute intent service to download weather data
      * as per the user defined 'location' setting
      */
     private void updateWeather() {
