@@ -44,9 +44,10 @@
         <provider
             android:name=".data.WeatherProvider"
             android:authorities="com.example.mohit.sunshine.app" />
-        <service
-            android:name=".service.SunshineService"
-            android:exported="false" />
+        <service android:name=".service.SunshineService" />
+        <receiver
+            android:name=".service.SunshineService$AlarmReceiver"
+            android:enabled="true" />
     </application>
 
 </manifest>
