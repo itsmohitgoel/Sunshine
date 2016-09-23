@@ -50,4 +50,8 @@
     <string name="format_pressure">
         Pressure: <xliff:g id="pressure">%1.0f</xliff:g> hPa
     </string>
+
+    <!-- SyncAdapter related -->
+    <string name="sync_account_type">sunshine.example.com</string>
+    <string name="content_authority">com.example.mohit.sunshine.app</string>
 </resources>
