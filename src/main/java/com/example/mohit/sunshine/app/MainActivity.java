@@ -16,6 +16,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.mohit.sunshine.app.Utilities.Utility;
+import com.example.mohit.sunshine.app.sync.SunshineSyncAdapter;
 
 public class MainActivity extends AppCompatActivity implements ForecastFragment.ICallback {
     private final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
 
         ForecastFragment ff = (ForecastFragment) getSupportFragmentManager().findFragmentById(R.id.fragment_forecast);
         ff.setUseTodayLayout(!mTwoPane);
+
+        SunshineSyncAdapter.initializeSyncAdapter(this);
     }
 
     @Override
