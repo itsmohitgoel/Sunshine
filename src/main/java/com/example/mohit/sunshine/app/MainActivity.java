@@ -17,6 +17,7 @@ import android.view.MenuItem;
 
 import com.example.mohit.sunshine.app.Utilities.Utility;
 import com.example.mohit.sunshine.app.sync.SunshineSyncAdapter;
+import com.facebook.stetho.Stetho;
 
 public class MainActivity extends AppCompatActivity implements ForecastFragment.ICallback {
     private final String LOG_TAG = MainActivity.class.getSimpleName();
@@ -59,6 +60,14 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
         ff.setUseTodayLayout(!mTwoPane);
 
         SunshineSyncAdapter.initializeSyncAdapter(this);
+
+        //Implement Stetho library
+        Stetho.InitializerBuilder initializerBuilder = Stetho.newInitializerBuilder(this);
+        initializerBuilder.enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this));
+        initializerBuilder.enableDumpapp(Stetho.defaultDumperPluginsProvider(this));
+
+        Stetho.Initializer initializer = initializerBuilder.build();
+        Stetho.initialize(initializer);
     }
 
     @Override
