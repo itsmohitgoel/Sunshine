@@ -2,12 +2,15 @@ package com.example.mohit.sunshine.app.sync;
 
 import android.accounts.Account;
 import android.accounts.AccountManager;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.AbstractThreadedSyncAdapter;
 import android.content.ContentProviderClient;
 import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
@@ -17,9 +20,11 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.text.format.Time;
 import android.util.Log;
 
+import com.example.mohit.sunshine.app.DetailActivity;
 import com.example.mohit.sunshine.app.R;
 import com.example.mohit.sunshine.app.Utilities.Utility;
 import com.example.mohit.sunshine.app.data.WeatherContract;
@@ -453,7 +458,17 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                         .setAutoCancel(true);
 
                 //Create an explicit intent for an DetailActivity
-                
+                Intent notifyRegularIntent = new Intent(context, DetailActivity.class);
+                TaskStackBuilder stackBuilder = TaskStackBuilder.create(context);
+                stackBuilder.addParentStack(DetailActivity.class);
+                stackBuilder.addNextIntent(notifyRegularIntent);
+
+                PendingIntent notifyPendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+                builder.setContentIntent(notifyPendingIntent);
+
+                NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
+
+                notificationManager.notify(WEATHER_NOTIFICATION_ID, builder.build());
 
                 //refreshing last sync
                 SharedPreferences.Editor editor = prefs.edit();
