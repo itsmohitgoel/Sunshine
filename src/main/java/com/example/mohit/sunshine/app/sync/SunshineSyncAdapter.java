@@ -345,6 +345,12 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
                 //Send user notification via syncAdapter, if not sent any in last 24 hours
                 notifyWeather();
+
+                //Deleting Day old data from the database
+                long yesterdayDate = dayTime.setJulianDay(julianStartDay - 1);
+                getContext().getContentResolver().delete(WeatherContract.WeatherEntry.CONTENT_URI,
+                        WeatherContract.WeatherEntry.COLUMN_DATE + " <= ?",
+                        new String[]{Long.toString(yesterdayDate)});
             }
             Log.d(LOG_TAG, "Sunshine service Complete. " + insertCount + " Inserted");
         } catch (JSONException e) {
