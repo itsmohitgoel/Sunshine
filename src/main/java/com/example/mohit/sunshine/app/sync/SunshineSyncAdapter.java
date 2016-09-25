@@ -8,12 +8,15 @@ import android.content.ContentResolver;
 import android.content.ContentUris;
 import android.content.ContentValues;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.SyncRequest;
 import android.content.SyncResult;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
+import android.support.v4.app.NotificationCompat;
 import android.text.format.Time;
 import android.util.Log;
 
@@ -43,6 +46,22 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
     // 60 seconds (1 minute) * 180 = 3 hours
     public static final int SYNC_INTERVAL = 60 * 180;
     public static final int SYNC_FLEXTIME = SYNC_INTERVAL/3;
+
+    // Leveraging projections
+    public static final String[] NOTIFY_WEATHER_PROJECTION = new String[]{
+            WeatherContract.WeatherEntry.COLUMN_WEATHER_ID,
+            WeatherContract.WeatherEntry.COLUMN_MAX_TEMP,
+            WeatherContract.WeatherEntry.COLUMN_MIN_TEMP,
+            WeatherContract.WeatherEntry.COLUMN_SHORT_DESC
+    };
+    //these indices  must match the  projection
+    public static final int INDEX_WEATHER_ID = 0;
+    public static final int INDEX_MAX_TEMP = 1;
+    public static final int INDEX_MIN_TEMP =2;
+    public static final int INDEX_SHORT_DESC = 3;
+
+    public static final long DAY_IN_MILLIS = 24 * 60 * 60 * 1000;
+    private static final int WEATHER_NOTIFICATION_ID = 3004;
 
     public SunshineSyncAdapter(Context context, boolean autoInitialize) {
         super(context, autoInitialize);
@@ -319,8 +338,8 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 cVVector.toArray(cvArray);
                 insertCount = getContext().getContentResolver().bulkInsert(WeatherContract.WeatherEntry.CONTENT_URI, cvArray);
 
-
-                // Sort order:  Ascending, by date.
+                //Send user notification via syncAdapter, if not sent any in last 24 hours
+                notifyWeather();
             }
             Log.d(LOG_TAG, "Sunshine service Complete. " + insertCount + " Inserted");
         } catch (JSONException e) {
@@ -395,6 +414,53 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
 
     public static void initializeSyncAdapter(Context context) {
         getSyncAccount(context);
+    }
+
+    private void notifyWeather() {
+        Context context = getContext();
+        //checking the last update and notify it if it's the first of the day
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        String lastNotificationKey = context.getString(R.string.pref_last_notification);
+        long lastSync = prefs.getLong(lastNotificationKey, 0);
+
+        if ((System.currentTimeMillis() - lastSync) >= DAY_IN_MILLIS) {
+            //Last notification was one day ago, let's send a notification with the weather
+            String locationQuery = Utility.getPreferredLocation(context);
+            Uri weatherUri = WeatherContract.WeatherEntry.buildWeatherLocationWithDate(locationQuery, System.currentTimeMillis());
+
+            //we'll  query the content provider as always
+            Cursor cursor = context.getContentResolver().query(weatherUri, NOTIFY_WEATHER_PROJECTION, null, null, null);
+
+            if (cursor.moveToFirst()) {
+                int weatherId = cursor.getInt(INDEX_WEATHER_ID);
+                double high = cursor.getDouble(INDEX_MAX_TEMP);
+                double low = cursor.getDouble(INDEX_MIN_TEMP);
+                String desc = cursor.getString(INDEX_SHORT_DESC);
+
+                int iconId = Utility.getIconResourceForWeather(weatherId);
+                String title = context.getString(R.string.app_name);
+
+                //Define the text of the forecast.
+                String contentText = String.format(context.getString(R.string.format_notification),
+                        desc, Utility.formatTemperature(context,high,true),
+                        Utility.formatTemperature(context,low, true));
+
+                //build my notification here.
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(context)
+                        .setSmallIcon(iconId)
+                        .setContentTitle(title)
+                        .setContentText(contentText)
+                        .setAutoCancel(true);
+
+                //Create an explicit intent for an DetailActivity
+                
+
+                //refreshing last sync
+                SharedPreferences.Editor editor = prefs.edit();
+                editor.putLong(lastNotificationKey, System.currentTimeMillis());
+                editor.commit();
+            }
+        }
     }
 }
 
