@@ -126,6 +126,8 @@ public class ForecastFragment extends Fragment implements Updatable, LoaderManag
         mForecastAdapter = new ForecastAdapter(getActivity(), null, 0);
 
         mListView = (ListView) rootView.findViewById(R.id.listview_forecast);
+        View emptyView = (View) rootView.findViewById(R.id.listview_forecast_empty);
+        mListView.setEmptyView(emptyView);
         mListView.setAdapter(mForecastAdapter);
 
         mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
