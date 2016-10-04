@@ -1,17 +1,14 @@
 package com.example.mohit.sunshine.app;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -91,32 +88,10 @@ public class MainActivity extends AppCompatActivity implements ForecastFragment.
             return true;
         }
 
-        if (id == R.id.action_map) {
-            openPreferredLocationMap();
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
-    private void openPreferredLocationMap() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String location = sharedPreferences.getString(
-                getString(R.string.pref_location_key),
-                getString(R.string.pref_location_default)
-        );
 
-        Uri baseUri = Uri.parse("geo:0,0?");
-        Uri.Builder builder = baseUri.buildUpon();
-        Uri finalUri = builder.appendQueryParameter("q", location).build();
-
-        Intent intentMap = new Intent(Intent.ACTION_VIEW);
-        intentMap.setData(finalUri);
-        if (intentMap.resolveActivity(getPackageManager()) != null) {
-            startActivity(intentMap);
-        } else {
-            Log.d(LOG_TAG, "couldn't call " + location + ", no receiving apps installed");
-        }
-    }
 
     @Override
     protected void onResume() {

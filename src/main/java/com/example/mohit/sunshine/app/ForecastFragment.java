@@ -1,5 +1,6 @@
 package com.example.mohit.sunshine.app;
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.LoaderManager;
 import android.support.v4.content.CursorLoader;
 import android.support.v4.content.Loader;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -100,8 +102,13 @@ public class ForecastFragment extends Fragment implements Updatable, LoaderManag
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        if (id == R.id.action_refresh) {
-            updateWeather();
+//        if (id == R.id.action_refresh) {
+//            updateWeather();
+//            return true;
+//        }
+
+        if (id == R.id.action_map) {
+            openPreferredLocationMap();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -210,6 +217,27 @@ public class ForecastFragment extends Fragment implements Updatable, LoaderManag
         mUseTodayLayout = useTodayLayout;
         if (mForecastAdapter != null) {
             mForecastAdapter.setUseTodayLayout(mUseTodayLayout);
+        }
+    }
+
+    private void openPreferredLocationMap() {
+        if (mForecastAdapter != null) {
+            Cursor c = mForecastAdapter.getCursor();
+            if (c != null) {
+                c.moveToPosition(0);
+                String posLat = c.getString(COL_COORD_LAT);
+                String posLong = c.getString(COL_COORD_LONG);
+                Uri geoLocationUri = Uri.parse("geo:" + posLat + "," + posLong);
+
+                Intent intentMap = new Intent(Intent.ACTION_VIEW);
+                intentMap.setData(geoLocationUri);
+
+                if (intentMap.resolveActivity(getActivity().getPackageManager()) != null) {
+                    startActivity(intentMap);
+                } else {
+                    Log.d(LOG_TAG, "couldn't call " + geoLocationUri.toString() + ", no receiving apps installed");
+                }
+            }
         }
     }
 }
