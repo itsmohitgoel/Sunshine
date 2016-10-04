@@ -18,6 +18,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.mohit.sunshine.app.Utilities.Utility;
 import com.example.mohit.sunshine.app.adapters.ForecastAdapter;
@@ -208,6 +209,7 @@ public class ForecastFragment extends Fragment implements Updatable, LoaderManag
         if (mPosition != ListView.INVALID_POSITION) {
             mListView.smoothScrollToPosition(mPosition);
         }
+        updateEmptyView();
     }
 
     @Override
@@ -239,6 +241,24 @@ public class ForecastFragment extends Fragment implements Updatable, LoaderManag
                 } else {
                     Log.d(LOG_TAG, "couldn't call " + geoLocationUri.toString() + ", no receiving apps installed");
                 }
+            }
+        }
+    }
+
+    /**
+     * Update the empty list with contextually relevant information that the user can use to determine
+     * why they aren't seeing weather..
+     */
+    private void updateEmptyView() {
+        if (mForecastAdapter.getCount() == 0) {
+            TextView tv = (TextView) getView().findViewById(R.id.listview_forecast_empty);
+            if (tv != null) {
+                //if cursor is empty, why? do we have an invalid location
+                int message = R.string.empty_forecast_list;
+                if (!Utility.isNetworkAvailable(getActivity())) {
+                    message = R.string.empty_forecast_list_no_network;
+                }
+                tv.setText(message);
             }
         }
     }
