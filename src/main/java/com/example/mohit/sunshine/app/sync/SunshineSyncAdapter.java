@@ -143,14 +143,17 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
             Log.v(LOG_TAG, "forecast json String : " + forecastJsonString);
 
             if (bufferString.length() == 0) {
+                setLocationStatus(getContext(), LOCATION_STATUS_SERVER_DOWN);
                 return;
             }
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_DOWN);
             e.printStackTrace();
             Log.e(LOG_TAG, "Error");
         } catch (JSONException e) {
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID);
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
         } finally {
@@ -365,9 +368,11 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                         new String[]{Long.toString(yesterdayDate)});
             }
             Log.d(LOG_TAG, "Sunshine service Complete. " + insertCount + " Inserted");
+            setLocationStatus(getContext(), LOCATION_STATUS_OK);
         } catch (JSONException e) {
             Log.e(LOG_TAG, e.getMessage(), e);
             e.printStackTrace();
+            setLocationStatus(getContext(), LOCATION_STATUS_SERVER_INVALID);
         }
     }
 
@@ -503,6 +508,13 @@ public class SunshineSyncAdapter extends AbstractThreadedSyncAdapter {
                 editor.commit();
             }
         }
+    }
+
+    private static void setLocationStatus(Context c, @LocationStatus int locationStatus) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        SharedPreferences.Editor spe = sp.edit();
+        spe.putInt(c.getString(R.string.pref_location_status_key), locationStatus);
+        spe.commit();
     }
 }
 
