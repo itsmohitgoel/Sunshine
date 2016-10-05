@@ -265,11 +265,21 @@ public class Utility {
      * @return the location status integer type
      */
     @SuppressWarnings("ResourceType")
-    public static
-    @SunshineSyncAdapter.LocationStatus
-    int getLocationStatus(Context c) {
+    public static @SunshineSyncAdapter.LocationStatus int getLocationStatus(Context c) {
         SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
         int status = sp.getInt(c.getString(R.string.pref_location_status_key), SunshineSyncAdapter.LOCATION_STATUS_UNKNOWN);
         return status;
     }
+
+    /**
+     * Reset the location status. (Set it to SunshineSyncAdapter.LOCATION_STATUS_UNKNOWN)
+     * @param c Context used to get SharedPreferences
+     */
+    public static void resetLocationStatus(Context c) {
+        SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(c);
+        SharedPreferences.Editor spe = sp.edit();
+        spe.putInt(c.getString(R.string.pref_location_status_key), SunshineSyncAdapter.LOCATION_STATUS_UNKNOWN);
+        spe.apply();
+    }
+
 }
