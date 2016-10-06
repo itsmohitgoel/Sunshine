@@ -1,6 +1,7 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_marginTop="?android:attr/actionBarSize">
 
     <LinearLayout
@@ -25,7 +26,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed"
-            android:text="June 18"
+            tools:text="June 18"
             android:textColor="@color/grey_700"
             android:textSize="16sp" />
 
@@ -48,7 +49,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif"
-                    android:text="20'"
+                    tools:text="20'"
                     android:textColor="@color/black"
                     android:textSize="96sp" />
 
@@ -58,7 +59,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:fontFamily="sans-serif"
-                    android:text="12'"
+                    tools:text="12'"
                     android:textColor="@color/grey_700"
                     android:textSize="48sp" />
             </LinearLayout>
@@ -74,14 +75,15 @@
                     android:id="@+id/detail_icon"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:src="@drawable/art_clear" />
+                    android:adjustViewBounds="true"
+                    tools:src="@drawable/art_clear" />
 
                 <TextView
                     android:id="@+id/detail_forecast_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-condensed"
-                    android:text="DClear"
+                    tools:text="DClear"
                     android:textAppearance="?android:textAppearanceLarge"
                     android:textColor="@color/grey_700" />
             </LinearLayout>
@@ -99,7 +101,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif"
-                android:text="Humidity: 71 %"
+                tools:text="Humidity: 71 %"
                 android:textAppearance="?android:textAppearanceLarge" />
 
             <TextView
@@ -108,7 +110,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif"
-                android:text="Pressure: 1016 hPa"
+                tools:text="Pressure: 1016 hPa"
                 android:textAppearance="?android:textAppearanceLarge" />
 
             <TextView
@@ -117,7 +119,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="4dp"
                 android:fontFamily="sans-serif"
-                android:text="Wind: 2 km/h NW"
+                tools:text="Wind: 2 km/h NW"
                 android:textAppearance="?android:textAppearanceLarge" />
         </LinearLayout>
     </LinearLayout>

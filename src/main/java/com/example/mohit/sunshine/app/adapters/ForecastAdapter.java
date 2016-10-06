@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.mohit.sunshine.app.ForecastFragment;
 import com.example.mohit.sunshine.app.R;
 import com.example.mohit.sunshine.app.Utilities.Utility;
@@ -97,18 +98,24 @@ public class ForecastAdapter extends CursorAdapter {
 //        viewHolder.iconView.setImageResource(R.mipmap.ic_launcher);
         int viewType = getItemViewType(cursor.getPosition());
         int weatherId = cursor.getInt(ForecastFragment.COL_WEATHER_CONDITION_ID);
+        int fallbackIconId;
         // get weather icon
         switch (viewType) {
             case VIEW_TYPE_TODAY:
-                viewHolder.iconView.setImageResource(Utility.getArtResourceForWeather(weatherId));
+                fallbackIconId = Utility.getArtResourceForWeather(weatherId);
                 break;
-            case VIEW_TYPE_FUTURE_DAY:
-                viewHolder.iconView.setImageResource(Utility.getIconResourceForWeather(weatherId));
+            default:
+                fallbackIconId = Utility.getIconResourceForWeather(weatherId);
                 break;
         }
+
+        Glide.with(mContext)
+                .load(Utility.getArtUrlForWeatherCondition(mContext, weatherId))
+                .error(fallbackIconId)
+                .crossFade()
+                .into(viewHolder.iconView);
+
         long date = cursor.getLong(ForecastFragment.COL_WEATHER_DATE);
-//        viewHolder.dateView.setText(Utility.getDayName(mContext, date) +
-//                ",,, " + Utility.getFormattedMonthDay(mContext, date));
         viewHolder.dateView.setText(Utility.getFriendlyDayString(mContext, date));
 
         String weather = cursor.getString(ForecastFragment.COL_WEATHER_DESC);

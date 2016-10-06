@@ -21,6 +21,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.example.mohit.sunshine.app.Utilities.Utility;
 import com.example.mohit.sunshine.app.data.WeatherContract;
 
@@ -164,7 +165,11 @@ public class DetailActivityFragment extends Fragment implements LoaderManager.Lo
         int weatherId = data.getInt(COL_WEATHER_CONDITION_ID);
 
         long date = data.getLong(COL_WEATHER_DATE);
-        mIconView.setImageResource(Utility.getArtResourceForWeather(weatherId));
+        Glide.with(this)
+                .load(Utility.getArtUrlForWeatherCondition(getActivity(), weatherId))
+                .error(Utility.getArtResourceForWeather(weatherId))
+                .crossFade()
+                .into(mIconView);
         mFriendlyDateView.setText(Utility.getDayName(getActivity(), date));
         mDateView.setText(Utility.getFormattedMonthDay(getActivity(), date));
         mHighTempView.setText(high);
